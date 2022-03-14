@@ -1,0 +1,85 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Comment {
+  id: ID
+  taskID: String!
+  text: String
+  replies: [Comment!]!
+}
+
+type Task {
+  id: ID
+  userID: String
+
+  """Task Name"""
+  name: String
+  subtasks: [Task!]!
+  comments: [Comment!]!
+}
+
+type User {
+  id: ID
+  name: String!
+  email: String!
+  tasks: [Task!]!
+}
+
+type Query {
+  users: [User!]!
+  user(id: String!): User!
+  tasks: [Task!]!
+  task(id: String!): Task!
+  comments: [Comment!]!
+  comment(id: String!): Comment!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  assignTask(user_id: String!, task_id: String!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+  removeAll: User!
+  createTask(createTaskInput: CreateTaskInput!): Task!
+  assignSubTask(task_id: String!, subtask_id: String!): Task!
+  comment(createCommentInput: CreateCommentInput!, task_id: String!): Task!
+  updateTask(updateTaskInput: UpdateTaskInput!): Task!
+  removeTask(id: String!): Task!
+  reply(createCommentInput: CreateCommentInput!, comment_id: String!): Comment!
+  removeComment(id: String!): Comment!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+}
+
+input UpdateUserInput {
+  name: String!
+  email: String!
+  id: String!
+}
+
+input CreateTaskInput {
+  """Task Name"""
+  name: String!
+}
+
+input CreateCommentInput {
+  text: String!
+}
+
+input UpdateTaskInput {
+  """Task Name"""
+  name: String!
+  id: String!
+  userID: String!
+  taskStatus: TaskStatus!
+}
+
+enum TaskStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
